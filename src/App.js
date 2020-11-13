@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Map from './Map'
+import React from 'react';
+import Mapa from './Map'
 
-function App() {
-  return (
-    <Map />
-  )
+function App(){
+
+  return(
+    <div className="App">
+      <Mapa />
+    </div>
+  );
+
 }
 
 export default App;
