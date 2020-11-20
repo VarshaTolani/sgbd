@@ -1,32 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <img src="ElasticChefLogo2.png" alt="ElasticChef" height="100">
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+.split {
+  height: 200%;
+  width: 85%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #E5E0DF;
+}
+
+.right {
+  right: 0;
+  background-color: #E5E0DF;
+}
+
+.centered {
+  position: absolute;
+  top: 21%;
+  left: 5%;
+  transform: translate(-0%, -50%);
+  text-align: left;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 0%;
+}
+
+</style>
+</head>
+
+<div class="split left">
+  <div class="centered">
+
+  <img src="ElasticChefLogo2.png" alt="ElasticChef" height="90">
   
+	<p> </p>
+  
+	<label for="Tipus">Escull el tipus</label>
+	<p> </p>
 	<select name="Tipus">
-	   <option selected value="0"> Escull un tipus </option> 
-		   <option value="10">Italià</option> 
-		   <option value="11">Japonès</option> 
-		   <option value="12">Xinès</option> 
+	   <option selected value="0"> </option> 
+		   <option value="1">Italià</option> 
+		   <option value="2">Japonès</option> 
+		   <option value="3">Xinès</option> 
 	</select>
 	
+	<p> </p>
+	
+	<label for="Preu">Escull el rang de preu</label>
+	<p> </p>
 	<select name="Preu">
-	   <option selected value="0"> Escull un rang</option>
+	   <option selected value="0"> </option>
 		   <optgroup label="Euros"> 
 		   <option value="1">10-20€</option> 
 		   <option value="2">20-30€</option> 
 		   <option value="3">30-40€</option> 
-		   <option value="3">+40€</option> 
+		   <option value="4">+40€</option> 
 	   </optgroup> 
 	   <optgroup label="Dollars"> 
-		   <option value="1">10-20$</option> 
-		   <option value="2">20-30$</option> 
-		   <option value="3">30-40$</option> 
-		   <option value="3">+40$</option> 
+		   <option value="5">10-20$</option> 
+		   <option value="6">20-30$</option> 
+		   <option value="7">30-40$</option> 
+		   <option value="8">+40$</option> 
 	   </optgroup> 
 	</select>
 	
 	<p> </p>
 	
+	<label for="Valoracio">Escull la valoració</label>
+	<p> </p>
+	<select name="Valoracio">
+	   <option selected value="0"> </option> 
+		   <option value="1">1 estrella (*)</option> 
+		   <option value="2">2 estrelles (**)</option> 
+		   <option value="3">3 estrelles (***)</option> 
+		   <option value="4">4 estrelles (****)</option> 
+		   <option value="5">5 estrelles (*****)</option> 
+	</select>
+	
+	<p> </p>
+	
+	</div>
+</div>
+
+<div class="split right">
+  <div class="centered">	
   <head>
     <meta charset="utf-8" />
     <!--<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />-->
@@ -54,7 +124,7 @@
     <title>ElasticChef</title>
   </head>
   <body>
-    <div id='ol-map' class='map'></div>
+    <div id='ol-map' class='map' > </div>
     <script src='../v6.4.3/build/ol.js'></script>
     <script src='../src/Map.js'></script>
 
@@ -70,4 +140,6 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  </div>
+</div>
 </html>
