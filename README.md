@@ -14,3 +14,9 @@ Roger Canet\
 - Kibana: .\bin\kibana.bat
 - npm start (executar app)
 - npm install ol (IMPORTANT pel mapa)
+
+/* IMPORTAR DADES */
+- Descarregar [logstash](https://www.elastic.co/es/downloads/logstash)
+- Crear l'index restaurants des de Kibana amb les instruccions del fitxer sgdb.elasticsearch.create_index
+- Eliminar la primera linia del fitxer csv i opcionalment els caracters "\[" i  "\]"
+- Obrir el terminal a un directori on hi hagi el fitxer sgdb.elasticsearch.pipeline.conf i executar: "path_a_logstash"\\bin\\logstash -f pipeline.conf (cal tenir ES engegat)
