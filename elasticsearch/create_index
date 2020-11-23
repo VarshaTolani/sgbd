@@ -1,0 +1,18 @@
+DELETE /restaurants
+
+PUT /restaurants 
+{
+    "mappings": {
+        "properties":{
+            "nom": {"type": "text"},
+            "localitzacio": {"type": "geo_point"},
+            "preu": {"type": "integer"},
+            "categoria": {"type": "text"},
+            "valoracio": {"type": "integer"},
+            "primers": {"type": "text"},
+            "segons": {"type": "text"},
+            "begudes": {"type": "text"},
+            "postres": {"type": "text"}
+        }
+    }
+}
