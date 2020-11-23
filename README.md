@@ -17,6 +17,7 @@ Roger Canet\
 
 /* IMPORTAR DADES */
 - Descarregar [logstash](https://www.elastic.co/es/downloads/logstash)
-- Crear l'index restaurants des de Kibana amb les instruccions del fitxer sgdb.elasticsearch.create_index
+- Crear l'index restaurants des de Kibana amb les instruccions del fitxer sgbd\\elasticsearch\\create_index
 - Eliminar la primera linia del fitxer csv i opcionalment els caracters "\[" i  "\]"
-- Obrir el terminal a un directori on hi hagi el fitxer sgdb.elasticsearch.pipeline.conf i executar: "path_a_logstash"\\bin\\logstash -f pipeline.conf (cal tenir ES engegat)
+- Baixar el fitxer sgbd\\elasticsearch\\pipeline.conf i a on posa "path => " afegir el path del fitxer .csv
+- Obrir el terminal a un directori on hi hagi el fitxer pipeline.conf i executar: "path_a_logstash"\\bin\\logstash -f pipeline.conf (cal tenir ES engegat)
