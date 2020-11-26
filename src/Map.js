@@ -7,8 +7,7 @@ import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import { fromLonLat } from 'ol/proj.js';
 import React, {Component} from 'react';
-import Style from 'ol/style/Style';
-import Circle from 'ol/style/Circle';
+import {Circle, Fill, Style} from 'ol/style';
 import Icon from 'ol/style/Icon';
 import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
@@ -37,18 +36,24 @@ export default class Mapa extends React.Component{
     });
 
     this.vectorLayer = new VectorLayer({
-      source: this.vectorSource
+      source: this.vectorSource,
+	  style: new Style({
+        image: new Circle({
+          radius: 6,
+          fill: new Fill({color: 'red'}),
+        }),
+      }),
     });
 
     this.map = new Map({
       target: 'mapContainer',
       layers: [ new TileLayer({
-        source: new OSM()
+       source: new OSM()
       }), this.vectorLayer ],
       view: new View({
         center: fromLonLat([2.896372, 44.60240]),
         zoom: 3
-      })
+      }),
     });
   
   
