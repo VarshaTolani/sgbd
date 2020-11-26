@@ -7,22 +7,38 @@ import React, {Component} from 'react';
 
 export default class Mapa extends React.Component{
 
-  constructor(props) {
-        super(props);
-
-        this.view = new View({
-            center: [0,0],
-            zoom: 2
-        });
-    }
-
   componentDidMount() {
-      this.map =  new Map({
-          view: this.view,
-          layers: [new TileLayer({ source: new OSM() })],
-          target: this.refs.mapContainer
-      });
-  }
+    
+    this.chicago = new Feature({
+      geometry: new Point(fromLonLat([-87.623177, 41.881832]))
+    });
+
+    this.london = new Feature({
+      geometry: new Point(fromLonLat([-0.12755, 51.507222]))
+    });
+
+    this.madrid = new Feature({
+      geometry: new Point(fromLonLat([-3.683333, 40.4]))
+    });
+
+    this.vectorSource = new VectorSource({
+      features: [this.chicago, this.madrid, this.london]
+    });
+
+    this.vectorLayer = new VectorLayer({
+      source: this.vectorSource
+    });
+
+    this.map = new Map({
+      target: 'mapContainer',
+      layers: [ new TileLayer({
+        source: new OSM()
+      }), this.vectorLayer ],
+      view: new View({
+        center: fromLonLat([2.896372, 44.60240]),
+        zoom: 3
+      })
+    });
 
   render(){
     console.log('-> render App')
