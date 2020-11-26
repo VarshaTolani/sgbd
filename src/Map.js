@@ -1,11 +1,22 @@
-
 import 'ol/ol.css';
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import Vector from 'ol/layer/Vector'
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import { fromLonLat } from 'ol/proj.js';
 import React, {Component} from 'react';
+import Style from 'ol/style/Style';
+import Circle from 'ol/style/Circle';
+import Icon from 'ol/style/Icon';
+import {transform} from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import { Vector as VectorLayer} from 'ol/layer';
 
 export default class Mapa extends React.Component{
+
+  
 
   componentDidMount() {
     
@@ -39,6 +50,9 @@ export default class Mapa extends React.Component{
         zoom: 3
       })
     });
+  
+  
+  }
 
   render(){
     console.log('-> render App')
@@ -48,38 +62,3 @@ export default class Mapa extends React.Component{
   }
 
 }
-
-
-/*import { GoogleMap,
-        withScriptjs,
-        withGoogleMap,
-        Marker
-     } from "react-google-maps"
-
-const Politecnica_UDG_position = { lat: 41.964162, lng: 2.830088 };
-
-function CreateMap() {
-    return (
-        <GoogleMap
-          defaultZoom={10}
-          defaultCenter={{lat: 41.981651, lng: 2.823610}}
-        >
-            <Marker position={Politecnica_UDG_position}/>
-        </GoogleMap>
-    );
-}
-
-const WrappedMap = withScriptjs(withGoogleMap(CreateMap));
-
-export default function Map(){
-    return(
-      <div style={{width: '70vw', height: '70vh'}}>
-        <WrappedMap
-            googleMapURL= {"https://maps.googleapis.com/maps/api/js?key=AIzaSyDzw2uiT3nAzHYONGS9fEzOi7tOjhQ0VsY&v=3.exp&libraries=geometry,drawing,places"}
-            loadingElement={ <div style={{ height: "100%" }} /> }
-            containerElement={ <div style={{ height: "100%" }} /> }
-            mapElement={ <div style={{ height: "100%" }} /> }
-        />
-      </div>
-    )
-}*/
