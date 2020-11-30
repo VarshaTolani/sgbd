@@ -46,60 +46,60 @@
   <div class="centered">
 
   <img src="ElasticChefLogo2.png" alt="ElasticChef" style="width:185px;height:100px;">
-  
+
 	<p> </p>
-  
+
 	<label for="Tipus">Escull el tipus</label>
 	<p> </p>
 	<!--Funció automatica després />-->
 	<select id="tipus" name="Tipus">
-	   <option selected value="sense tipus"> </option> 
-		   <option value="Italià">Italià</option> 
-		   <option value="Japonès">Japonès</option> 
-		   <option value="Xinès">Xinès</option> 
+	   <option selected value="sense tipus"> </option>
+		   <option value="Italià">Italià</option>
+		   <option value="Japonès">Japonès</option>
+		   <option value="Xinès">Xinès</option>
 	</select>
-	
+
 	<p> </p>
-	
+
 	<label for="Preu">Escull el preu</label>
 	<p> </p>
 	<select id="preu" name="Preu">
 	   <option selected value="0"> </option>
-		   <option value="20">20€</option> 
-		   <option value="40">40€</option> 
-		   <option value="70">70€</option> 
-		   <option value="100">100€</option> 
+		   <option value="20">20€</option>
+		   <option value="40">40€</option>
+		   <option value="70">70€</option>
+		   <option value="100">100€</option>
 	</select>
-	
+
 	<p> </p>
-	
+
 	<label for="Valoracio">Escull la valoració</label>
 	<p> </p>
 	<select id="valoracio" name="Valoracio">
-	   <option selected value="0"> </option> 
-		   <option value="1">1 estrella</option> 
-		   <option value="2">2 estrelles</option> 
-		   <option value="3">3 estrelles</option> 
-		   <option value="4">4 estrelles</option> 
-		   <option value="5">5 estrelles</option> 
+	   <option selected value="0"> </option>
+		   <option value="1">1 estrella</option>
+		   <option value="2">2 estrelles</option>
+		   <option value="3">3 estrelles</option>
+		   <option value="4">4 estrelles</option>
+		   <option value="5">5 estrelles</option>
 	</select>
-	
+
 	<p> </p>
-	
+
 	<button onclick="message()">Troba restaurants</button>
-	
+
 	<SCRIPT>
-	
+
 	function message() {
 
 	var t = document.getElementById('tipus');
 	var p = document.getElementById('preu');
 	var v = document.getElementById('valoracio');
-	
-	
-	
+
+
+
 	//alert('Restaurants seleccionats amb menjar ' + t.value + ', de ' + p.value + ' euro/s i de ' + v.value + ' estrelles.')
-	
+
 	/*
 	GET /restuarants/_search
 	{
@@ -114,16 +114,16 @@
 	  }
 	}
 	*/
-	
+
 	}
-	
+
 	</SCRIPT>
-	
+
 	</div>
 </div>
 
 <div class="split right">
-  <div class="centered">	
+  <div class="centered">
   <head>
     <meta charset="utf-8" />
     <!--<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />-->
@@ -151,7 +151,19 @@
     <title>ElasticChef</title>
   </head>
   <body>
-    <div id='ol-map' class='map' > </div>
+    <div id='ol-map' class='map' > </div>>
+    <div id="info" style="display: none;"></div>
+    <label for="track">
+      track position
+      <input id="track" type="checkbox"/>
+    </label>
+    <p>
+      position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
+      altitude : <code id="altitude"></code>&nbsp;&nbsp;
+      altitude accuracy : <code id="altitudeAccuracy"></code>&nbsp;&nbsp;
+      heading : <code id="heading"></code>&nbsp;&nbsp;
+      speed : <code id="speed"></code>
+    </p>
     <script src='../v6.4.3/build/ol.js'></script>
     <script src='../src/Map.js'></script>
 
