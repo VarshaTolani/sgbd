@@ -1,8 +1,14 @@
 
 import 'ol/ol.css';
 import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import VectorSource from 'ol/source/Vector';
 import OSM from 'ol/source/OSM';
+import {fromLonLat} from 'ol/proj';
+import Feature from 'ol/Feature';
+import Geolocation from 'ol/Geolocation';
+import Point from 'ol/geom/Point';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import React, {Component} from 'react';
 
 export default class Mapa extends React.Component{
@@ -11,8 +17,8 @@ export default class Mapa extends React.Component{
         super(props);
 
         this.view = new View({
-            center: [0,0],
-            zoom: 2
+            center: fromLonLat([2.82975, 41.96425]),
+            zoom: 16
         });
     }
 
@@ -22,7 +28,72 @@ export default class Mapa extends React.Component{
           layers: [new TileLayer({ source: new OSM() })],
           target: this.refs.mapContainer
       });
+
+      this.geolocation = new Geolocation({
+          trackingOptions:{
+            enableHighAccuracy: true,
+          },
+          projection: this.view.getProjection(),
+      });
+
+      function el(id) {
+          return document.getElementById(id);
+      }
+
+      el('track').addEventListener('change', function () {
+          this.geolocation.setTracking(this.checked);
+      });
+
+      // update the HTML page when the position changes.
+      this.geolocation.on('change', function () {
+          el('accuracy').innerText = this.geolocation.getAccuracy() + ' [m]';
+          el('altitude').innerText = this.geolocation.getAltitude() + ' [m]';
+          el('altitudeAccuracy').innerText = this.geolocation.getAltitudeAccuracy() + ' [m]';
+          el('heading').innerText = this.geolocation.getHeading() + ' [rad]';
+          el('speed').innerText = this.geolocation.getSpeed() + ' [m/s]';
+      });
+
+      // handle geolocation error.
+      this.geolocation.on('error', function (error) {
+          var info = document.getElementById('info');
+          info.innerHTML = error.message;
+          info.style.display = '';
+      });
+
+      var accuracyFeature = new Feature();
+          this.geolocation.on('change:accuracyGeometry', function () {
+          accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
+      });
+
+      var positionFeature = new Feature();
+      positionFeature.setStyle(
+          new Style({
+              image: new CircleStyle({
+                  radius: 6,
+                  fill: new Fill({
+                      color: '#3399CC',
+                  }),
+                  stroke: new Stroke({
+                      color: '#fff',
+                      width: 2,
+                  }),
+                }),
+          })
+      );
+
+      this.geolocation.on('change:position', function () {
+          var coordinates = this.geolocation.getPosition();
+          positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+      });
+
+      new VectorLayer({
+          map: this.map,
+            source: new VectorSource({
+              features: [accuracyFeature, positionFeature],
+            }),
+      });
   }
+
 
   render(){
     console.log('-> render App')
@@ -32,38 +103,3 @@ export default class Mapa extends React.Component{
   }
 
 }
-
-
-/*import { GoogleMap,
-        withScriptjs,
-        withGoogleMap,
-        Marker
-     } from "react-google-maps"
-
-const Politecnica_UDG_position = { lat: 41.964162, lng: 2.830088 };
-
-function CreateMap() {
-    return (
-        <GoogleMap
-          defaultZoom={10}
-          defaultCenter={{lat: 41.981651, lng: 2.823610}}
-        >
-            <Marker position={Politecnica_UDG_position}/>
-        </GoogleMap>
-    );
-}
-
-const WrappedMap = withScriptjs(withGoogleMap(CreateMap));
-
-export default function Map(){
-    return(
-      <div style={{width: '70vw', height: '70vh'}}>
-        <WrappedMap
-            googleMapURL= {"https://maps.googleapis.com/maps/api/js?key=AIzaSyDzw2uiT3nAzHYONGS9fEzOi7tOjhQ0VsY&v=3.exp&libraries=geometry,drawing,places"}
-            loadingElement={ <div style={{ height: "100%" }} /> }
-            containerElement={ <div style={{ height: "100%" }} /> }
-            mapElement={ <div style={{ height: "100%" }} /> }
-        />
-      </div>
-    )
-}*/
