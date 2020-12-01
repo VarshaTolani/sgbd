@@ -7,7 +7,7 @@ PUT /restaurants
             "nom": {"type": "text"},
             "localitzacio": {"type": "geo_point"},
             "preu": {"type": "integer"},
-            "categoria": {"type": "text"},
+            "categoria": {"type": "keyword"},
             "valoracio": {"type": "integer"},
             "primers": {"type": "text"},
             "segons": {"type": "text"},
