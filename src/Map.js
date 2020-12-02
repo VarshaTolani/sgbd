@@ -29,7 +29,7 @@ export default class Mapa extends React.Component {
       zoom: 6.5
     })
 
-    this.map =  new Map({
+    var map =  new Map({
       target: 'mapContainer',
       layers: [ new TileLayer({
           source: new OSM() }) ],
@@ -87,17 +87,22 @@ export default class Mapa extends React.Component {
     geolocation.on('change:position', function () {
       var coordinates = geolocation.getPosition();
       positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+      map.setView(new View({
+          center: coordinates,
+          zoom: 15,
+        })
+      );
     });
 
     this.VectorLayer = new VectorLayer({
-      map: this.map,
+      map: map,
       source: new VectorSource({
         features: [accuracyFeature, positionFeature],
       }),
     });
 
     /*this.VectorLayer.on('change', function(){
-        this.map.setView(new View({
+        map.setView(new View({
         center:geolocation.getPosition(),
         zoom: 10
       }));
