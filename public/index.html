@@ -51,7 +51,7 @@
 
 	<label for="Tipus">Escull el tipus</label>
 	<p> </p>
-	
+
 	<select id="tipus" name="Tipus">
 	   <option selected value="sense tipus"> </option>
 		   <option value="Italià">Italià</option>
@@ -149,9 +149,21 @@
     -->
     <title>ElasticChef</title>
   </head>
-  
+
   <body>
     <div id='ol-map' class='map' > </div>
+    <div id="info" style="display: none;"></div>
+    <label for="track">
+      Geolocalitza'm
+      <input id="track" type="checkbox"/>
+    </label>
+    <p>
+      position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
+      altitude : <code id="altitude"></code>&nbsp;&nbsp;
+      altitude accuracy : <code id="altitudeAccuracy"></code>&nbsp;&nbsp;
+      heading : <code id="heading"></code>&nbsp;&nbsp;
+      speed : <code id="speed"></code>
+    </p>
     <script src='../v6.4.3/build/ol.js'></script>
     <script src='../src/Map.js'></script>
 
