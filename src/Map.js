@@ -57,7 +57,7 @@ export default class Mapa extends React.Component {
       el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
       el('heading').innerText = geolocation.getHeading() + ' [rad]';
       el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
-      var coords = toLonLat(geolocation.getPosition(),EPSG:4326);
+      var coords = toLonLat(geolocation.getPosition(),geolocation.getProjection());
       el('coords').innerText = coords;
     });
 
@@ -88,30 +88,24 @@ export default class Mapa extends React.Component {
       })
     );
 
-    geolocation.on('change:position', function () {
+    var self = this;
+    geolocation.on('change:position', function() {
       var coordinates = geolocation.getPosition();
       positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
-      this.map.setView(new View({
+      self.map.setView(new View({
           center: coordinates,
           zoom: 15,
         })
       );
     });
 
-    this.geoLoc_vectorLayer = new VectorLayer({      
+    this.geoLoc_vectorLayer = new VectorLayer({
+      map: this.map,
       source: new VectorSource({
         features: [accuracyFeature, positionFeature],
       })
     });
 
-    this.map.addLayer(this.geoLoc_vectorLayer)
-
-    /*this.VectorLayer.on('change', function(){
-        map.setView(new View({
-        center:geolocation.getPosition(),
-        zoom: 10
-      }));
-    });*/
   }
 
   componentDidUpdate() {
