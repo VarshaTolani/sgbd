@@ -4,7 +4,6 @@ import Filters from './Filters'
 import axios from 'axios'
 
 
-
 function App() {
 
   const url = "http://localhost:9200/restaurants/_search"
@@ -14,13 +13,14 @@ function App() {
   function set_filters_query(){
 
     let filters = []
+    var currentCoordinates = document.getElementById("coords").value;
 
     if(document.getElementById("distancia").value !== "0"){
       filters.push(
           {
-            "geo_distance": {          
+            "geo_distance": {
               "distance": document.getElementById("distancia").value,
-              "localitzacio": 
+              "localitzacio":
               {
                 "lat": 90,
                 "lon": 137
@@ -28,11 +28,11 @@ function App() {
             }
           }
       )
-    }    
+    }
 
     if(document.getElementById("tipus").value !== "sense tipus"){
       filters.push(
-        { 
+        {
           "term": {
             "categoria": document.getElementById("tipus").value
           }
@@ -42,7 +42,7 @@ function App() {
 
     if(document.getElementById("preu").value !== "0"){
       filters.push(
-        { 
+        {
           "term": {
             "preu": document.getElementById("preu").value
           }
@@ -52,7 +52,7 @@ function App() {
 
     if(document.getElementById("valoracio").value !== "0"){
       filters.push(
-        { 
+        {
           "term": {
             "valoracio": document.getElementById("valoracio").value
           }
@@ -66,7 +66,7 @@ function App() {
   function get_new_query(){
 
       const filters = set_filters_query()
-     
+
       setQuery( {
         "_source": ["nom","localitzacio"],
         "size": 10000,
@@ -79,10 +79,10 @@ function App() {
           }
         }
       });
-  }  
+  }
 
   useEffect(() => {
-    if(query){      
+    if(query){
       let cancel
       axios.post(url, query, {
         cancelToken: new axios.CancelToken(c => cancel = c)
@@ -90,9 +90,9 @@ function App() {
         setPositions(res.data.hits.hits.map(res => res._source.localitzacio))
       }).catch(error => console.log('ERROR: ', error.response))
       return () => cancel()
-    } 
+    }
   }, [query])
-  
+
   return (
     <>
       <Filters get_new_query={get_new_query}/>

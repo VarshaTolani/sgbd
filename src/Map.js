@@ -7,6 +7,8 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Geolocation from 'ol/Geolocation';
 import { fromLonLat } from 'ol/proj.js';
+import {toLonLat} from 'ol/proj';
+import {rotate} from 'ol/coordinate';
 import React, {Component, useEffect, useRef, useState} from 'react';
 import {Circle, Fill, Stroke, Style} from 'ol/style';
 import Icon from 'ol/style/Icon';
@@ -55,6 +57,8 @@ export default class Mapa extends React.Component {
       el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
       el('heading').innerText = geolocation.getHeading() + ' [rad]';
       el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
+      var coords = toLonLat(geolocation.getPosition(),EPSG:4326);
+      el('coords').innerText = coords;
     });
 
     geolocation.on('error', function (error) {
