@@ -51,14 +51,18 @@ export default class Mapa extends React.Component {
       geolocation.setTracking(this.checked);
     });
 
+    var geoCoords;
+
     geolocation.on('change', function () {
       el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
       el('altitude').innerText = geolocation.getAltitude() + ' [m]';
       el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
       el('heading').innerText = geolocation.getHeading() + ' [rad]';
       el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
-      var coords = toLonLat(geolocation.getPosition(),geolocation.getProjection());
-      el('coords').innerText = coords;
+      geoCoords = toLonLat(geolocation.getPosition(),geolocation.getProjection());
+      this.currentCoordinates = [geoCoords[1],geoCoords[0]];
+      el('coordsLat').innerText = geoCoords[1].toFixed(3);
+      el('coordsLon').innerText = geoCoords[0].toFixed(3);
     });
 
     geolocation.on('error', function (error) {

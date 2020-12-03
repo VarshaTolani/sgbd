@@ -13,7 +13,7 @@ function App() {
   function set_filters_query(){
 
     let filters = []
-    var currentCoordinates = document.getElementById("coords").value;
+    var currentCoordinates = [41.60240, 2.896372];
 
     if(document.getElementById("distancia").value !== "0"){
       filters.push(
