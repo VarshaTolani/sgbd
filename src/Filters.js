@@ -13,6 +13,8 @@ export default function Filters( { get_new_query }){
     <th>Preu</th>
 	<th></th>
     <th>Valoracio</th>
+    <th></th>
+    <th>Cerca</th>
   </tr>
   <tr>
     <td>
@@ -54,6 +56,10 @@ export default function Filters( { get_new_query }){
                 <option value="5">5 estrelles</option> 
             </select>
 	</td>
+    <td></td>
+    <td>
+    <input type="text" id="nom" placeholder="Cerca per nom"></input>
+    </td>
   </tr>
 </table>
                       

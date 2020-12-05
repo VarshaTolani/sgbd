@@ -60,8 +60,23 @@ function App() {
       )
     }
 
+    if(document.getElementById("nom").value !== ""){
+      var ast = "*"
+      var nom = ast.concat(document.getElementById("nom").value,ast);
+      filters.push(
+        {
+          "query_string": {
+            "query": nom,
+            "default_field": "nom"
+          }
+
+        }
+      )
+    }
+
     return filters
   }
+
 
   function get_new_query(){
 
