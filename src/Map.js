@@ -15,6 +15,8 @@ import Icon from 'ol/style/Icon';
 import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer} from 'ol/layer';
+import {toStringHDMS} from 'ol/coordinate';
+import {Overlay} from 'ol/index';
 
 
 export default class Mapa extends React.Component {
@@ -141,7 +143,55 @@ export default class Mapa extends React.Component {
 
       this.map.addLayer(this.vectorLayer)
     }
+	
+	/*** POPUP ***/
+	var x = this;
+	var element = document.getElementById('popup');
 
+	var popup = new Overlay({
+	  element: element,
+	  positioning: 'bottom-center',
+	  stopEvent: false,
+	  offset: [0, -10],
+	});
+	x.map.addOverlay(popup);
+
+	function formatCoordinate(coordinate) {
+	  return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + " ERROR1 " + "</td></tr>\n        <tr><th>lat</th><td>" + " ERROR2 " + "</td></tr>\n      </tbody>\n    </table>");
+	}
+
+	var info = document.getElementById('info');
+	x.map.on('moveend', function () {
+	  var view = x.map.getView();
+	  var center = view.getCenter();
+	  info.innerHTML = formatCoordinate(center);
+	});
+
+	x.map.on('click', function (event) {
+	  var feature = x.map.getFeaturesAtPixel(event.pixel)[0];
+	  if (feature) {
+		var coordinate = feature.getGeometry().getCoordinates();
+		popup.setPosition(coordinate);
+		$(element).popover({
+		  container: element,
+		  html: true,
+		  sanitize: false,
+		  content: formatCoordinate(coordinate),
+		  placement: 'top',
+		});
+		$(element).popover('show');
+	  } else {
+		$(element).popover('dispose');
+	  }
+	});
+
+	x.map.on('pointermove', function (event) {
+	  if (x.map.hasFeatureAtPixel(event.pixel)) {
+		x.map.getViewport().style.cursor = 'pointer';
+	  } else {
+		x.map.getViewport().style.cursor = 'inherit';
+	  }
+	});
   }
 
 
