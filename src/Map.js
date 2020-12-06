@@ -16,6 +16,8 @@ import Icon from 'ol/style/Icon';
 import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer} from 'ol/layer';
+import {toStringHDMS} from 'ol/coordinate';
+import {Overlay} from 'ol/index';
 
 
 export default class Mapa extends React.Component {
@@ -62,7 +64,6 @@ export default class Mapa extends React.Component {
       el('heading').innerText = geolocation.getHeading() + ' [rad]';
       el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
       geoCoords = toLonLat(geolocation.getPosition(),geolocation.getProjection());
-      this.currentCoordinates = [geoCoords[1],geoCoords[0]];
       el('coordsLat').innerText = geoCoords[1].toFixed(3);
       el('coordsLon').innerText = geoCoords[0].toFixed(3);
     });
@@ -103,6 +104,8 @@ export default class Mapa extends React.Component {
           zoom: 15,
         })
       );
+      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection());
+      self.props.setCurrentCoordinates(projCoordinates);
     });
 
     this.geoLoc_vectorLayer = new VectorLayer({
