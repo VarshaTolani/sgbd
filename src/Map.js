@@ -1,5 +1,6 @@
 import 'ol/ol.css';
 import {Map, View} from 'ol';
+import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import Vector from 'ol/layer/Vector';
@@ -18,6 +19,7 @@ import { Vector as VectorLayer} from 'ol/layer';
 
 
 export default class Mapa extends React.Component {
+
 
   constructor(props){
     super(props)
@@ -137,12 +139,59 @@ export default class Mapa extends React.Component {
             fill: new Fill({color: 'red'}),
           }),
         }),
+        updateWhileAnimating: true,
+        updateWhileInteracting: true,
       });
 
-      this.map.addLayer(this.vectorLayer)
-    }
+      this.map.addLayer(this.vectorLayer);
 
-  }
+      //** Pop-Ups **//
+      var container = document.getElementById("ol-popup");
+      var content = document.getElementById("content");
+      if(container == null) console.log("ERROR: Popup container null");
+      var popup = new Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation:{
+          duration: 250,
+        },
+      });
+
+      this.map.addOverlay(popup);
+
+      var selfPop = this;
+      this.map.on('singleclick', function(evt){
+        popup.setPosition(undefined);
+
+        var feature = selfPop.map.forEachFeatureAtPixel(evt.pixel,function(feature,layer){
+          return feature;
+        });
+
+        if(feature){
+          var coord = feature.getGeometry().getCoordinates();
+          var popProps = this.props;
+          var info = "PROVA";
+
+          content.innerHTML = info;
+          popup.setPosition(coord);
+        }
+      });
+
+      this.map.on('pointermove', function(evt){
+        var hit = selfPop.map.forEachFeatureAtPixel(evt.pixel, function(feature,layer){
+          return true;
+        });
+
+        if(hit){
+          this.getTargetElement().style.cursor = 'pointer';
+        }
+        else{
+          this.getTargetElement().style.cursor = '';
+        }
+      });
+
+    } // if props
+  } //componentUpdate
 
 
   render(){
