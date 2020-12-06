@@ -17,7 +17,7 @@ import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer} from 'ol/layer';
 import {toStringHDMS} from 'ol/coordinate';
-import {Overlay} from 'ol/index';
+
 
 
 export default class Mapa extends React.Component {
@@ -119,16 +119,21 @@ export default class Mapa extends React.Component {
 
   componentDidUpdate() {
 
-    if (this.props.positions){
+    if (this.props.restaurants){
 
       if (this.vectorLayer){
         this.map.removeLayer(this.vectorLayer)
       }
 
-      this.geo_points = this.props.positions.map(p =>
+      this.geo_points = this.props.restaurants.map(r =>
         new Feature({
-          geometry: new Point(fromLonLat(p.split`,`.map(Number).reverse()))
-        }) )
+          geometry: new Point(fromLonLat(r._source.localitzacio.split`,`.map(Number).reverse())),
+          restaurant_id: r._id,
+          restaurant_name: r._source.nom,
+          restaurant_type: r._source.categoria
+
+        })  
+      )
 
       this.vectorSource = new VectorSource({
         features: this.geo_points
@@ -173,8 +178,7 @@ export default class Mapa extends React.Component {
         if(feature){
           var coord = feature.getGeometry().getCoordinates();
           var popProps = this.props;
-          var info = "PROVA";
-
+          var info = feature.values_.restaurant_name + '<br>' + feature.values_.restaurant_type;        
           content.innerHTML = info;
           popup.setPosition(coord);
         }
