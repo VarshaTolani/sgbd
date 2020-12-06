@@ -1,5 +1,6 @@
 import 'ol/ol.css';
 import {Map, View} from 'ol';
+import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import Vector from 'ol/layer/Vector';
@@ -20,6 +21,7 @@ import {Overlay} from 'ol/index';
 
 
 export default class Mapa extends React.Component {
+
 
   constructor(props){
     super(props)
@@ -140,60 +142,59 @@ export default class Mapa extends React.Component {
             fill: new Fill({color: 'red'}),
           }),
         }),
+        updateWhileAnimating: true,
+        updateWhileInteracting: true,
       });
 
-      this.map.addLayer(this.vectorLayer)
-    }
-	
-	// /*** POPUP ***/
-	// var x = this;
-	// var element = document.getElementById('popup');
+      this.map.addLayer(this.vectorLayer);
 
-	// var popup = new Overlay({
-	//   element: element,
-	//   positioning: 'bottom-center',
-	//   stopEvent: false,
-	//   offset: [0, -10],
-	// });
-	// x.map.addOverlay(popup);
+      //** Pop-Ups **//
+      var container = document.getElementById("ol-popup");
+      var content = document.getElementById("content");
+      if(container == null) console.log("ERROR: Popup container null");
+      var popup = new Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation:{
+          duration: 250,
+        },
+      });
 
-	// function formatCoordinate(coordinate) {
-	//   return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + " ERROR1 " + "</td></tr>\n        <tr><th>lat</th><td>" + " ERROR2 " + "</td></tr>\n      </tbody>\n    </table>");
-	// }
+      this.map.addOverlay(popup);
 
-	// var info = document.getElementById('info');
-	// x.map.on('moveend', function () {
-	//   var view = x.map.getView();
-	//   var center = view.getCenter();
-	//   info.innerHTML = formatCoordinate(center);
-	// });
+      var selfPop = this;
+      this.map.on('singleclick', function(evt){
+        popup.setPosition(undefined);
 
-	// x.map.on('click', function (event) {
-	//   var feature = x.map.getFeaturesAtPixel(event.pixel)[0];
-	//   if (feature) {
-	// 	var coordinate = feature.getGeometry().getCoordinates();
-	// 	popup.setPosition(coordinate);
-	// 	$(element).popover({
-	// 	  container: element,
-	// 	  html: true,
-	// 	  sanitize: false,
-	// 	  content: formatCoordinate(coordinate),
-	// 	  placement: 'top',
-	// 	});
-	// 	$(element).popover('show');
-	//   } else {
-	// 	$(element).popover('dispose');
-	//   }
-	// });
+        var feature = selfPop.map.forEachFeatureAtPixel(evt.pixel,function(feature,layer){
+          return feature;
+        });
 
-	// x.map.on('pointermove', function (event) {
-	//   if (x.map.hasFeatureAtPixel(event.pixel)) {
-	// 	x.map.getViewport().style.cursor = 'pointer';
-	//   } else {
-	// 	x.map.getViewport().style.cursor = 'inherit';
-	//   }
-	// });
-  }
+        if(feature){
+          var coord = feature.getGeometry().getCoordinates();
+          var popProps = this.props;
+          var info = "PROVA";
+
+          content.innerHTML = info;
+          popup.setPosition(coord);
+        }
+      });
+
+      this.map.on('pointermove', function(evt){
+        var hit = selfPop.map.forEachFeatureAtPixel(evt.pixel, function(feature,layer){
+          return true;
+        });
+
+        if(hit){
+          this.getTargetElement().style.cursor = 'pointer';
+        }
+        else{
+          this.getTargetElement().style.cursor = '';
+        }
+      });
+
+    } // if props
+  } //componentUpdate
 
 
   render(){
