@@ -17,7 +17,6 @@ import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer} from 'ol/layer';
 import {toStringHDMS} from 'ol/coordinate';
-import {Overlay} from 'ol/index';
 
 
 export default class Mapa extends React.Component {
