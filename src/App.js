@@ -10,7 +10,7 @@ function App() {
 
   
   const [query, setQuery] = useState(null)
-  const [positions, setPositions] = useState(null)
+  const [restaurants, setRestaurants] = useState(null)
   
 
   function setCurrentCoordinates(coordinates){
@@ -91,7 +91,7 @@ function App() {
       const filters = set_filters_query()
 
       setQuery( {
-        "_source": ["nom","localitzacio"],
+        "_source": ["nom","localitzacio","categoria"],
         "size": 10000,
         "query": {
           "bool": {
@@ -105,22 +105,26 @@ function App() {
   }
 
   useEffect(() => {
+
     if(query){
       let cancel
       axios.post(url, query, {
         cancelToken: new axios.CancelToken(c => cancel = c)
       }).then(res => {
-        setPositions(res.data.hits.hits.map(res => res._source.localitzacio))
+
+        setRestaurants(res.data.hits.hits)
+          
       }).catch(error => console.log('ERROR: ', error.response))
       return () => cancel()
     }
+
   }, [query])
 
   return (
     <>
       <Filters get_new_query={get_new_query}/>
       <Map  
-        positions = {positions}
+        restaurants = {restaurants}
         setCurrentCoordinates = {setCurrentCoordinates}
       />
     </>
