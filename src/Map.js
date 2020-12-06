@@ -62,7 +62,6 @@ export default class Mapa extends React.Component {
       el('heading').innerText = geolocation.getHeading() + ' [rad]';
       el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
       geoCoords = toLonLat(geolocation.getPosition(),geolocation.getProjection());
-      this.currentCoordinates = [geoCoords[1],geoCoords[0]];
       el('coordsLat').innerText = geoCoords[1].toFixed(3);
       el('coordsLon').innerText = geoCoords[0].toFixed(3);
     });
@@ -103,6 +102,8 @@ export default class Mapa extends React.Component {
           zoom: 15,
         })
       );
+      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection());
+      self.props.setCurrentCoordinates(projCoordinates);
     });
 
     this.geoLoc_vectorLayer = new VectorLayer({
@@ -144,54 +145,54 @@ export default class Mapa extends React.Component {
       this.map.addLayer(this.vectorLayer)
     }
 	
-	/*** POPUP ***/
-	var x = this;
-	var element = document.getElementById('popup');
+	// /*** POPUP ***/
+	// var x = this;
+	// var element = document.getElementById('popup');
 
-	var popup = new Overlay({
-	  element: element,
-	  positioning: 'bottom-center',
-	  stopEvent: false,
-	  offset: [0, -10],
-	});
-	x.map.addOverlay(popup);
+	// var popup = new Overlay({
+	//   element: element,
+	//   positioning: 'bottom-center',
+	//   stopEvent: false,
+	//   offset: [0, -10],
+	// });
+	// x.map.addOverlay(popup);
 
-	function formatCoordinate(coordinate) {
-	  return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + " ERROR1 " + "</td></tr>\n        <tr><th>lat</th><td>" + " ERROR2 " + "</td></tr>\n      </tbody>\n    </table>");
-	}
+	// function formatCoordinate(coordinate) {
+	//   return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + " ERROR1 " + "</td></tr>\n        <tr><th>lat</th><td>" + " ERROR2 " + "</td></tr>\n      </tbody>\n    </table>");
+	// }
 
-	var info = document.getElementById('info');
-	x.map.on('moveend', function () {
-	  var view = x.map.getView();
-	  var center = view.getCenter();
-	  info.innerHTML = formatCoordinate(center);
-	});
+	// var info = document.getElementById('info');
+	// x.map.on('moveend', function () {
+	//   var view = x.map.getView();
+	//   var center = view.getCenter();
+	//   info.innerHTML = formatCoordinate(center);
+	// });
 
-	x.map.on('click', function (event) {
-	  var feature = x.map.getFeaturesAtPixel(event.pixel)[0];
-	  if (feature) {
-		var coordinate = feature.getGeometry().getCoordinates();
-		popup.setPosition(coordinate);
-		$(element).popover({
-		  container: element,
-		  html: true,
-		  sanitize: false,
-		  content: formatCoordinate(coordinate),
-		  placement: 'top',
-		});
-		$(element).popover('show');
-	  } else {
-		$(element).popover('dispose');
-	  }
-	});
+	// x.map.on('click', function (event) {
+	//   var feature = x.map.getFeaturesAtPixel(event.pixel)[0];
+	//   if (feature) {
+	// 	var coordinate = feature.getGeometry().getCoordinates();
+	// 	popup.setPosition(coordinate);
+	// 	$(element).popover({
+	// 	  container: element,
+	// 	  html: true,
+	// 	  sanitize: false,
+	// 	  content: formatCoordinate(coordinate),
+	// 	  placement: 'top',
+	// 	});
+	// 	$(element).popover('show');
+	//   } else {
+	// 	$(element).popover('dispose');
+	//   }
+	// });
 
-	x.map.on('pointermove', function (event) {
-	  if (x.map.hasFeatureAtPixel(event.pixel)) {
-		x.map.getViewport().style.cursor = 'pointer';
-	  } else {
-		x.map.getViewport().style.cursor = 'inherit';
-	  }
-	});
+	// x.map.on('pointermove', function (event) {
+	//   if (x.map.hasFeatureAtPixel(event.pixel)) {
+	// 	x.map.getViewport().style.cursor = 'pointer';
+	//   } else {
+	// 	x.map.getViewport().style.cursor = 'inherit';
+	//   }
+	// });
   }
 
 
