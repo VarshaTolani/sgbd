@@ -3,27 +3,35 @@ import Map from './Map'
 import Filters from './Filters'
 import axios from 'axios'
 
+const url = "http://localhost:9200/restaurants/_search"
+var currentCoordinates = null;
 
 function App() {
 
-  const url = "http://localhost:9200/restaurants/_search"
+  
   const [query, setQuery] = useState(null)
   const [positions, setPositions] = useState(null)
+  
+
+  function setCurrentCoordinates(coordinates){
+    currentCoordinates = coordinates
+  }
 
   function set_filters_query(){
 
     let filters = []
-    var currentCoordinates = [41.60240, 2.896372];
+    
 
-    if(document.getElementById("distancia").value !== "0"){
+    if(document.getElementById("distancia").value !== "0" && currentCoordinates){
+    
       filters.push(
           {
             "geo_distance": {
               "distance": document.getElementById("distancia").value,
               "localitzacio":
               {
-                "lat": 90,
-                "lon": 137
+                "lat": currentCoordinates[0],
+                "lon": currentCoordinates[1]
               }
             }
           }
@@ -111,7 +119,10 @@ function App() {
   return (
     <>
       <Filters get_new_query={get_new_query}/>
-      <Map  positions = {positions}/>
+      <Map  
+        positions = {positions}
+        setCurrentCoordinates = {setCurrentCoordinates}
+      />
     </>
   )
 }
