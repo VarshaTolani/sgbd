@@ -104,7 +104,7 @@ export default class Mapa extends React.Component {
           zoom: 15,
         })
       );
-      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection());
+      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection()).reverse();
       self.props.setCurrentCoordinates(projCoordinates);
     });
 

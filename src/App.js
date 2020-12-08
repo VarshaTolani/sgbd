@@ -24,7 +24,6 @@ function App() {
     
 
     if(document.getElementById("distancia").value !== "0" && currentCoordinates){
-    
       filters.push(
           {
             "geo_distance": {
