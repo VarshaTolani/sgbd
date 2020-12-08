@@ -8,7 +8,9 @@ def main():
 
     output_file = open(FILE_NAME, "a")
     input_file = open('input.csv', 'r')
-    i = 0
+    i = 821612
+    for _ in range(i):
+        line = str(input_file.readline())
 
     while True:
 
@@ -16,9 +18,6 @@ def main():
         if not line:
             break
 
-        line = line.replace('[', '')
-        line = line.replace(']', '')
-       
         result = requests.get(url=URL)
         coordinates = result.json()["nearest"]
         lat = str(coordinates["latt"])

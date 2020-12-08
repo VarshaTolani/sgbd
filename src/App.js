@@ -4,7 +4,8 @@ import Filters from './Filters'
 import axios from 'axios'
 
 const url = "http://localhost:9200/restaurants/_search"
-var currentCoordinates = null;
+const max_num_restaurants = 10000
+var currentCoordinates = null
 
 function App() {
 
@@ -92,7 +93,7 @@ function App() {
 
       setQuery( {
         "_source": ["nom","localitzacio","categoria"],
-        "size": 10000,
+        "size": max_num_restaurants,
         "query": {
           "bool": {
             "must": {
