@@ -40,7 +40,8 @@
     border: solid white;
     bottom: 12px;
     left: -60px;
-    min-width: 100px;
+    text-align: left;
+    min-width: 170px;
   }
 
   .popup:after, .popup:before {
@@ -64,6 +65,50 @@
     left: 48px;
     margin-left: -1px;
   }
+
+  .textButton{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .menuPanel {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: Tan;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.menuPanel a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.menuPanel a:hover {
+  color: #f1f1f1;
+}
+
+.menuPanel .closeMenu {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
 
 
   </style>
@@ -104,8 +149,12 @@
 
   <body>
     <div id='ol-map' class='map'></div>
+    <div id="menuSidepanel" class="menuPanel">
+      <a href="javascript:void(0)" class="closeButton" onclick="closeMenu()">×</a>
+    </div>
     <div id="ol-popup" class="popup">
-      <div id="content"></div>
+      <button id="contentName" class="textButton" onclick="openMenu()"></button>
+      <div id="contentInfo"></div>
     </div>
     <label for="track">
       Geolocalitza'm
@@ -123,6 +172,16 @@
     <script src='../v6.4.3/build/ol.js'></script>
     <script src='../src/Map.js'></script>
     <script src='../src/App.js'></script>
+
+    <script>
+      function openMenu() {
+      document.getElementById("menuSidepanel").style.width = "250px";
+      }
+
+      function closeMenu() {
+      document.getElementById("menuSidepanel").style.width = "0";
+      }
+    </script>
     <!--<div id="root"></div> -->
     <!--
       This HTML file is a template.

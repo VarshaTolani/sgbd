@@ -155,7 +155,8 @@ export default class Mapa extends React.Component {
 
       //** Pop-Ups **//
       var container = document.getElementById("ol-popup");
-      var content = document.getElementById("content");
+      var contentName = document.getElementById("contentName");
+      var contentInfo = document.getElementById("contentInfo");
       if(container == null) console.log("ERROR: Popup container null");
       var popup = new Overlay({
         element: container,
@@ -178,8 +179,10 @@ export default class Mapa extends React.Component {
         if(feature){
           var coord = feature.getGeometry().getCoordinates();
           var popProps = this.props;
-          var info = feature.values_.restaurant_name + '<br>' + feature.values_.restaurant_type;
-          content.innerHTML = info;
+          var name = feature.values_.restaurant_name;
+          var info = feature.values_.restaurant_type;
+          contentName.innerHTML = name;
+          contentInfo.innerHTML = '&nbsp' + info;
           popup.setPosition(coord);
         }
       });
