@@ -132,7 +132,7 @@ export default class Mapa extends React.Component {
           restaurant_name: r._source.nom,
           restaurant_type: r._source.categoria
 
-        })  
+        })
       )
 
       this.vectorSource = new VectorSource({
@@ -178,7 +178,7 @@ export default class Mapa extends React.Component {
         if(feature){
           var coord = feature.getGeometry().getCoordinates();
           var popProps = this.props;
-          var info = feature.values_.restaurant_name + '<br>' + feature.values_.restaurant_type;        
+          var info = feature.values_.restaurant_name + '<br>' + feature.values_.restaurant_type;
           content.innerHTML = info;
           popup.setPosition(coord);
         }
