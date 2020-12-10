@@ -23,6 +23,9 @@ export default function Filters( { get_new_query }){
                 <option value="1km">1km</option>
                 <option value="2km">2km</option>
                 <option value="100km">100km</option>
+                <option value="200km">200km</option>
+                <option value="500km">500km</option>
+                <option value="1000km">1000km</option>
                 <option value="10000km">10000km</option>
             </select>
 	</td>

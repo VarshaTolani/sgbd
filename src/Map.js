@@ -186,7 +186,7 @@ export default class Mapa extends React.Component {
           contentName.innerHTML = name;
           contentInfo.innerHTML = '&nbsp' + info;
           popup.setPosition(coord);
-          selfPop.props.setCurrentRestaurant(name);
+          selfPop.props.get_new_menu(feature.values_.restaurant_id);          
         }
       });
 
@@ -202,6 +202,12 @@ export default class Mapa extends React.Component {
           this.getTargetElement().style.cursor = '';
         }
       });
+      
+      //----------------------------------------------//
+      if (this.props.menu.isOpen){
+        console.log('Menu: ', this.props.menu)
+      }
+      //----------------------------------------------//
 
       //Menu info
       var menuSelf = this;
