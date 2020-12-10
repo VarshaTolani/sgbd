@@ -3,7 +3,7 @@ import Map from './Map'
 import Filters from './Filters'
 import axios from 'axios'
 
-const url = "http://localhost:9200/restaurants/_search"
+const url = "http://localhost:9200/restaurants"
 const max_num_restaurants = 10000
 var currentCoordinates = null
 var currentRestaurant = null;
@@ -14,16 +14,35 @@ function App() {
   const [query, setQuery] = useState(null)
   const [restaurants, setRestaurants] = useState(null)
   const [query2, setQuery2] = useState(null)
-  const [selectedRestaurant, setRestaurant] = useState(null)
+  const [menu, setMenu] = useState({
+                                      isOpen: false,
+                                      primers: [],
+                                      segons: [],
+                                      postres: [],
+                                      begudes: []
+                                    })
 
 
   function setCurrentCoordinates(coordinates){
     currentCoordinates = coordinates
   }
 
-  function setCurrentRestaurant(nom){
-    currentRestaurant = nom
+  function get_new_menu(restaurant_id){
+  
+    axios.get(url + '/_doc/' + restaurant_id, {      
+    }).then(res => {
+
+      setMenu({
+        isOpen: true,
+        primers: res.data._source.primers.split(','),
+        segons: res.data._source.segons.split(','),
+        postres: res.data._source.postres.split(','),
+        begudes: res.data._source.begudes.split(',')
+      })
+
+    }).catch(error => console.log('ERROR: ', error.response))    
   }
+
 
   function set_filters_query(){
 
@@ -31,7 +50,6 @@ function App() {
 
 
     if(document.getElementById("distancia").value !== "0" && currentCoordinates){
-
       filters.push(
           {
             "geo_distance": {
@@ -112,36 +130,12 @@ function App() {
       });
   }
 
-  function get_menu_query(){
-
-      let filter = [];
-      filter.push(
-        {
-          "query_string": {
-            "query": currentRestaurant,
-            "default_field": "nom"
-          }
-        }
-      );
-
-      setQuery2( {
-        "source":["preu","valoracio","primers","segons","begudes","postres"],
-        "query": {
-          "bool": {
-            "must": {
-              "match_all": {}
-            },
-            "filter": filter
-          }
-        }
-      });
-  }
 
   useEffect(() => {
 
     if(query){
       let cancel
-      axios.post(url, query, {
+      axios.post(url + '/_search', query, {
         cancelToken: new axios.CancelToken(c => cancel = c)
       }).then(res => {
 
@@ -151,19 +145,7 @@ function App() {
       return () => cancel()
     }
 
-    if(query2){
-      let cancel
-      axios.post(url, query2, {
-        cancelToken: new axios.CancelToken(c => cancel = c)
-      }).then(res => {
-
-        setRestaurant(res.data.hits.hits)
-
-      }).catch(error => console.log('ERROR: ', error.response))
-      return () => cancel()
-    }
-
-  }, [query,query2])
+  }, [query])
 
 
   return (
@@ -171,9 +153,9 @@ function App() {
       <Filters get_new_query={get_new_query}/>
       <Map
         restaurants = {restaurants}
+        menu = {menu}
         setCurrentCoordinates = {setCurrentCoordinates}
-        setCurrentRestaurant = {setCurrentRestaurant}
-        selectedRestaurant = {selectedRestaurant}
+        get_new_menu = {get_new_menu}
       />
     </>
   )
