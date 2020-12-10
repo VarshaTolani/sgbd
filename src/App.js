@@ -6,7 +6,6 @@ import axios from 'axios'
 const url = "http://localhost:9200/restaurants"
 const max_num_restaurants = 10000
 var currentCoordinates = null
-var currentRestaurant = null;
 
 function App() {
 
@@ -18,7 +17,9 @@ function App() {
                                       primers: [],
                                       segons: [],
                                       postres: [],
-                                      begudes: []
+                                      begudes: [],
+                                      valoracio: null,
+                                      preu: null
                                     })
 
 
@@ -27,8 +28,8 @@ function App() {
   }
 
   function get_new_menu(restaurant_id){
-  
-    axios.get(url + '/_doc/' + restaurant_id, {      
+
+    axios.get(url + '/_doc/' + restaurant_id, {
     }).then(res => {
 
       setMenu({
@@ -36,10 +37,12 @@ function App() {
         primers: res.data._source.primers.split(','),
         segons: res.data._source.segons.split(','),
         postres: res.data._source.postres.split(','),
-        begudes: res.data._source.begudes.split(',')
+        begudes: res.data._source.begudes.split(','),
+        valoracio: res.data._source.valoracio,
+        preu: res.data._source.preu
       })
 
-    }).catch(error => console.log('ERROR: ', error.response))    
+    }).catch(error => console.log('ERROR: ', error.response))
   }
 
 

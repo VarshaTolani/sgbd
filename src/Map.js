@@ -186,7 +186,7 @@ export default class Mapa extends React.Component {
           contentName.innerHTML = name;
           contentInfo.innerHTML = '&nbsp' + info;
           popup.setPosition(coord);
-          selfPop.props.get_new_menu(feature.values_.restaurant_id);          
+          //selfPop.props.get_new_menu(feature.values_.restaurant_id);
         }
       });
 
@@ -202,24 +202,28 @@ export default class Mapa extends React.Component {
           this.getTargetElement().style.cursor = '';
         }
       });
-      
-      //----------------------------------------------//
-      if (this.props.menu.isOpen){
-        console.log('Menu: ', this.props.menu)
-      }
-      //----------------------------------------------//
 
       //Menu info
-      var menuSelf = this;
       document.getElementById("contentName").addEventListener("click",function(){
-        //AQUI CRIDAR FUNCIÓ DE LA QUERY
-        document.getElementById("menuSidepanel").style.width = "340px";
-        document.getElementById("menuSidepanel").style.paddingLeft = "20px";
-        document.getElementById("ol-map").style.marginRight = "370px";
-        document.getElementById("panel-nomRest").innerHTML = feature.values_.restaurant_name;
-        document.getElementById("panel-categRest").innerHTML = feature.values_.restaurant_type;
-        document.getElementById("panel-valRest").innerHTML = menuSelf.props.selectedRestaurant._source.valoracio;
-
+        selfPop.props.get_new_menu(feature.values_.restaurant_id);
+        if(selfPop.props.menu.isOpen){
+          document.getElementById("menuSidepanel").style.width = "355px";
+          document.getElementById("menuSidepanel").style.paddingLeft = "20px";
+          document.getElementById("ol-map").style.marginRight = "370px";
+          document.getElementById("panel-nomRest").innerHTML = feature.values_.restaurant_name;
+          document.getElementById("panel-categRest").innerHTML = feature.values_.restaurant_type;
+          document.getElementById("panel-valRest").innerHTML = selfPop.props.menu.valoracio;
+          document.getElementById("panel-preuRest").innerHTML = selfPop.props.menu.preu;
+          var primers = selfPop.props.menu.primers.toString();
+          document.getElementById("panel-primers").innerHTML = primers.replace(/,/g, '<br>');
+          var segons = selfPop.props.menu.segons.toString();
+          document.getElementById("panel-segons").innerHTML = segons.replace(/,/g, '<br>');
+          var postres = selfPop.props.menu.postres.toString();
+          document.getElementById("panel-postres").innerHTML = postres.replace(/,/g, '<br>');
+          var begudes = selfPop.props.menu.begudes.toString();
+          document.getElementById("panel-begudes").innerHTML = begudes.replace(/,/g, '<br>');
+          document.getElementById("saltMultiple").innerHTML = "<br>".repeat(5);
+        }
       });
 
       document.getElementById("closeBtn").addEventListener("click",function(){
