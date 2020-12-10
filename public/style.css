@@ -1,0 +1,108 @@
+
+.split {
+  height: 200%;
+  width: 85%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #E5E0DF;
+}
+
+.right {
+  right: 0;
+  background-color: #E5E0DF;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 0%;
+}
+
+.popup{
+  position: absolute;
+  background-color: white;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+  border: solid white;
+  bottom: 12px;
+  left: -60px;
+  text-align: left;
+  min-width: 170px;
+}
+
+.popup:after, .popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -1px;
+}
+.popup:before {
+  border-top-color: white;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -1px;
+}
+
+.textButton{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.menuPanel {
+height: 100%;
+width: 0;
+position: fixed;
+z-index: 1;
+top: 0;
+right: 0;
+background-color: Tan;
+overflow-x: hidden;
+transition: 0.5s;
+padding-top: 60px;
+padding-left: 0px;
+}
+
+.menuPanel a {
+padding: 8px 8px 8px 32px;
+text-decoration: none;
+font-size: 25px;
+color: #818181;
+display: block;
+transition: 0.3s;
+}
+
+.menuPanel a:hover {
+color: #f1f1f1;
+}
+
+.menuPanel .closeMenu {
+position: absolute;
+background-color: transparent;
+border: none;
+outline: none;
+top: 0;
+left: 25px;
+font-size: 36px;
+margin-right: 50px;
+}
