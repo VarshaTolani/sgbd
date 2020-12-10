@@ -13,7 +13,6 @@ function App() {
 
   const [query, setQuery] = useState(null)
   const [restaurants, setRestaurants] = useState(null)
-  const [query2, setQuery2] = useState(null)
   const [menu, setMenu] = useState({
                                       isOpen: false,
                                       primers: [],
