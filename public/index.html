@@ -4,114 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="c.png" type="image/x-icon">
-  <style>
-
-  .split {
-    height: 200%;
-    width: 85%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
-  }
-
-  .left {
-    left: 0;
-    background-color: #E5E0DF;
-  }
-
-  .right {
-    right: 0;
-    background-color: #E5E0DF;
-  }
-
-  .centered img {
-    width: 150px;
-    border-radius: 0%;
-  }
-
-  .popup{
-    position: absolute;
-    background-color: white;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    border-radius: 10px;
-    border: solid white;
-    bottom: 12px;
-    left: -60px;
-    text-align: left;
-    min-width: 170px;
-  }
-
-  .popup:after, .popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-  .popup:after {
-    border-top-color: white;
-    border-width: 10px;
-    left: 48px;
-    margin-left: -1px;
-  }
-  .popup:before {
-    border-top-color: white;
-    border-width: 11px;
-    left: 48px;
-    margin-left: -1px;
-  }
-
-  .textButton{
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .menuPanel {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: Tan;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-
-.menuPanel a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.menuPanel a:hover {
-  color: #f1f1f1;
-}
-
-.menuPanel .closeMenu {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-
-  </style>
+  <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 
 <div class="split left">
@@ -150,10 +43,18 @@
   <body>
     <div id='ol-map' class='map'></div>
     <div id="menuSidepanel" class="menuPanel">
-      <a href="javascript:void(0)" class="closeButton" onclick="closeMenu()">×</a>
+      <button id="closeBtn" class="closeMenu">×</button>
+      <b id="panel-nomRest" style="font-size:30px; color:#4c2020;"></b><br>
+      <i id="panel-categRest" font-weight="bold"></i>
+      <p>
+        <b>Valoració: </b> <code id="panel-valRest"></code><br>
+        <b>Preu: </b><code id="panel-preuRest"></code><br><br>
+        <b style="font-size:15px; color:#4c2020;">LA NOSTRA CARTA</b>
+      </p>
+
     </div>
     <div id="ol-popup" class="popup">
-      <button id="contentName" class="textButton" onclick="openMenu()"></button>
+      <button id="contentName" onClick={get_menu_query} class="textButton"></button>
       <div id="contentInfo"></div>
     </div>
     <label for="track">
@@ -173,24 +74,7 @@
     <script src='../src/Map.js'></script>
     <script src='../src/App.js'></script>
 
-    <script>
-      function openMenu() {
-      document.getElementById("menuSidepanel").style.width = "250px";
-      }
-
-      function closeMenu() {
-      document.getElementById("menuSidepanel").style.width = "0";
-      }
-    </script>
     <!--<div id="root"></div> -->
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </div>
 </html>

@@ -6,25 +6,32 @@ import axios from 'axios'
 const url = "http://localhost:9200/restaurants/_search"
 const max_num_restaurants = 10000
 var currentCoordinates = null
+var currentRestaurant = null;
 
 function App() {
 
-  
+
   const [query, setQuery] = useState(null)
   const [restaurants, setRestaurants] = useState(null)
-  
+  const [query2, setQuery2] = useState(null)
+  const [selectedRestaurant, setRestaurant] = useState(null)
+
 
   function setCurrentCoordinates(coordinates){
     currentCoordinates = coordinates
   }
 
+  function setCurrentRestaurant(nom){
+    currentRestaurant = nom
+  }
+
   function set_filters_query(){
 
     let filters = []
-    
+
 
     if(document.getElementById("distancia").value !== "0" && currentCoordinates){
-    
+
       filters.push(
           {
             "geo_distance": {
@@ -105,6 +112,31 @@ function App() {
       });
   }
 
+  function get_menu_query(){
+
+      let filter = [];
+      filter.push(
+        {
+          "query_string": {
+            "query": currentRestaurant,
+            "default_field": "nom"
+          }
+        }
+      );
+
+      setQuery2( {
+        "source":["preu","valoracio","primers","segons","begudes","postres"],
+        "query": {
+          "bool": {
+            "must": {
+              "match_all": {}
+            },
+            "filter": filter
+          }
+        }
+      });
+  }
+
   useEffect(() => {
 
     if(query){
@@ -114,19 +146,34 @@ function App() {
       }).then(res => {
 
         setRestaurants(res.data.hits.hits)
-          
+
       }).catch(error => console.log('ERROR: ', error.response))
       return () => cancel()
     }
 
-  }, [query])
+    if(query2){
+      let cancel
+      axios.post(url, query2, {
+        cancelToken: new axios.CancelToken(c => cancel = c)
+      }).then(res => {
+
+        setRestaurant(res.data.hits.hits)
+
+      }).catch(error => console.log('ERROR: ', error.response))
+      return () => cancel()
+    }
+
+  }, [query,query2])
+
 
   return (
     <>
       <Filters get_new_query={get_new_query}/>
-      <Map  
+      <Map
         restaurants = {restaurants}
         setCurrentCoordinates = {setCurrentCoordinates}
+        setCurrentRestaurant = {setCurrentRestaurant}
+        selectedRestaurant = {selectedRestaurant}
       />
     </>
   )

@@ -17,6 +17,7 @@ import {transform} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer} from 'ol/layer';
 import {toStringHDMS} from 'ol/coordinate';
+import axios from 'axios'
 
 
 
@@ -104,7 +105,7 @@ export default class Mapa extends React.Component {
           zoom: 15,
         })
       );
-      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection())reverse();
+      var projCoordinates = toLonLat(geolocation.getPosition(),geolocation.getProjection()).reverse();
       self.props.setCurrentCoordinates(projCoordinates);
     });
 
@@ -169,10 +170,11 @@ export default class Mapa extends React.Component {
       this.map.addOverlay(popup);
 
       var selfPop = this;
+      var feature;
       this.map.on('singleclick', function(evt){
         popup.setPosition(undefined);
 
-        var feature = selfPop.map.forEachFeatureAtPixel(evt.pixel,function(feature,layer){
+        feature = selfPop.map.forEachFeatureAtPixel(evt.pixel,function(feature,layer){
           return feature;
         });
 
@@ -184,6 +186,7 @@ export default class Mapa extends React.Component {
           contentName.innerHTML = name;
           contentInfo.innerHTML = '&nbsp' + info;
           popup.setPosition(coord);
+          selfPop.props.setCurrentRestaurant(name);
         }
       });
 
@@ -198,6 +201,25 @@ export default class Mapa extends React.Component {
         else{
           this.getTargetElement().style.cursor = '';
         }
+      });
+
+      //Menu info
+      var menuSelf = this;
+      document.getElementById("contentName").addEventListener("click",function(){
+        //AQUI CRIDAR FUNCIÓ DE LA QUERY
+        document.getElementById("menuSidepanel").style.width = "340px";
+        document.getElementById("menuSidepanel").style.paddingLeft = "20px";
+        document.getElementById("ol-map").style.marginRight = "370px";
+        document.getElementById("panel-nomRest").innerHTML = feature.values_.restaurant_name;
+        document.getElementById("panel-categRest").innerHTML = feature.values_.restaurant_type;
+        document.getElementById("panel-valRest").innerHTML = menuSelf.props.selectedRestaurant._source.valoracio;
+
+      });
+
+      document.getElementById("closeBtn").addEventListener("click",function(){
+        document.getElementById("menuSidepanel").style.width = "0";
+        document.getElementById("menuSidepanel").style.paddingLeft = "0";
+        document.getElementById("ol-map").style.marginRight= "0";
       });
 
     } // if props
