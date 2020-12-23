@@ -9,19 +9,19 @@ Aplicació web per la cerca de restaurants: disposa d'un mapa amb marcadors que 
 - *Jordi Gomara*
 - *Roger Canet*
 
-**Informació important**
+### INFORMACIÓ IMPORTANT
 
-### COMANDES PER L'EXECUCIÓ
+### Comandes per l'execució
 - **Execució per l'ElasticSearch**: .\bin\elasticsearch.bat
 - **Execució del Kibana**: .\bin\kibana.bat
 - **Execució del programa**: npm start (Des del directori amb els .js)
 
-### COMANDES D'INSTAL·LACIÓ
+### Comandes d'instal·lació
 - **Instal·lació OpenLayers**: npm install ol (IMPORTANT pel mapa)
 - **Instal·lació d'Axios**: npm install axios (per connexió amb ES)
 - **Extensio chrome [Moesif CROS]**: https://chrome.google.com/webstore/detail/moesif-origin-cors-change/digfbfaphojjndkpccljibejjbppifbc
 
-### IMPORTACIÓ DE DADES
+### Importació de dades
 - **Descarregar [logstash]**: (https://www.elastic.co/es/downloads/logstash)
 - Crear l'index restaurants des de Kibana amb les instruccions del fitxer sgbd\\elasticsearch\\create_index
 - Baixar el fitxer sgbd\\elasticsearch\\pipeline.conf i a on posa "path => " afegir el path del fitxer .csv
