@@ -3,13 +3,13 @@
 
 Aplicació web per la cerca de restaurants: disposa d'un mapa amb marcadors que mostra els restaurants seleccionats. Permet filtrar-los per una sèrie de variables: categoria, preu, distància, etc.
 
-**Autors:**
-*Pau Casademont*
-*Varsha Tolani*
-*Jordi Gomara*
-*Roger Canet*
+**Autors:**\n
+*Pau Casademont*\n
+*Varsha Tolani*\n
+*Jordi Gomara*\n
+*Roger Canet*\n
 
-/************************* INFORMACIÓ IMPORTANT *************************/
+**Informació important**
 
 ### COMANDES PER L'EXECUCIÓ
 - **Execució per l'ElasticSearch**: .\bin\elasticsearch.bat
