@@ -27,3 +27,5 @@ Aplicació web per la cerca de restaurants: disposa d'un mapa amb marcadors que 
 - Baixar el fitxer sgbd\\elasticsearch\\pipeline.conf i a on posa "path => " afegir el path del fitxer .csv
 - Obrir el terminal a un directori on hi hagi el fitxer pipeline.conf i executar: "path_a_logstash"\\bin\\logstash -f pipeline.conf (cal tenir ES engegat)
 
+
+*UNIVERSITAT DE GIRONA, 4t GEINF*
